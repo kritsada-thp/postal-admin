@@ -5,11 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ระบบจัดการใบนำส่งบัตรเลือกตั้ง | ไปรษณีย์ไทย</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
-        iframe { border: none; width: 100%; height: 100%; }
+        /* ปรับให้ลื่นไหลและรองรับการแสดงผลเต็มหน้าจอ */
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            height: 100%; 
+            width: 100%; 
+            overflow: hidden; 
+            background-color: #f8fafc; 
+        }
+        iframe { 
+            border: none; 
+            width: 100%; 
+            height: 100%; 
+            display: block;
+        }
     </style>
 </head>
 <body>
-    <iframe src="https://script.google.com/a/macros/thailandpost.com/s/AKfycbxM1ESrLyR2lQo7I8fkE2tZSY4YoD8f37rQAr5RC-Rl29K1A1hbiocHpa61m-lve6hg2g/exec"></iframe>
+    <iframe 
+        id="mainApp"
+        src="https://script.google.com/a/macros/thailandpost.com/s/AKfycbxM1ESrLyR2lQo7I8fkE2tZSY4YoD8f37rQAr5RC-Rl29K1A1hbiocHpa61m-lve6hg2g/exec"
+        allow="geolocation; microphone; camera; clipboard-read; clipboard-write;"
+    ></iframe>
+
+    <script>
+        // Logic: บังคับให้ iframe รีโหลดตัวเองหนึ่งครั้งหากข้อมูลไม่ขึ้น 
+        // หรือช่วยให้การรับส่งข้อมูลระหว่าง GitHub กับ Apps Script เสถียรขึ้น
+        const iframe = document.getElementById('mainApp');
+
+        // ตรวจสอบว่าถ้าโหลดเสร็จแล้ว ให้โฟกัสไปที่เนื้อหาข้างในทันที
+        iframe.onload = function() {
+            console.log("Apps Script Loaded Successfully");
+            iframe.contentWindow.focus();
+        };
+
+        // ป้องกันอาการหน้าขาวหรือค้าง (Fallback)
+        setTimeout(() => {
+            if (!iframe.src) {
+                iframe.src = iframe.src;
+            }
+        }, 3000);
+    </script>
 </body>
 </html>
